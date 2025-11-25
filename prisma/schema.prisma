@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client"
+  output          = "../src/generated/prisma"
+}
+
+model Lugar {
+  id        Int             @id @default(autoincrement())
+  nombre    String
+  descripcion String?
+  fechas    FechaHorario[]  // relación 1:N con FechaHorario
+}
+
+model FechaHorario {
+  id        Int       @id @default(autoincrement())
+  fecha     DateTime
+  horario   String
+  lugarId   Int
+  lugar     Lugar    @relation(fields: [lugarId], references: [id])
+  reservas  Reserva[] // relación 1:N con Reserva
+}
+
+model Usuario {
+  id        Int       @id @default(autoincrement())
+  nombre    String
+  email     String    @unique
+  reservas  Reserva[] // relación 1:N con Reserva
+}
+
+model Reserva {
+  id        Int          @id @default(autoincrement())
+  usuarioId Int
+  fechaId   Int
+  cantidad  Int
+  estado    String
+
+  usuario   Usuario      @relation(fields: [usuarioId], references: [id])
+  fecha     FechaHorario @relation(fields: [fechaId], references: [id])
+}
+

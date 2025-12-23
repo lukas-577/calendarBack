@@ -16,6 +16,7 @@ model Lugar {
   id        Int             @id @default(autoincrement())
   nombre    String
   descripcion String?
+  imagen      String?
   fechas    FechaHorario[]  // relación 1:N con FechaHorario
 }
 

@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class LugaresService {
   constructor(private prisma: PrismaService) {}
 
-  async create (data: { nombre: string; descripcion: string; }) {
+  async create (data: { nombre: string; descripcion: string; imagen:string }) {
     return this.prisma.lugar.create({
       data,
     });
